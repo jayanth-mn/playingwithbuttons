@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Theme</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            background-color: #fde0dc;
+        }
+
+        #floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .heart {
+            color: red;
+            font-size: 24px;
+            position: absolute;
+            animation: floatHeart linear infinite;
+            opacity: 0.5;
+        }
+
+        .big-heart {
+            font-size: 36px; /* Bigger hearts */
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(50vh);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        #love-paragraph {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 60%;
+            z-index: 1;
+        }
+
+        #options {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 1;
+        }
+
+        button {
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            transition: transform 0.5s ease-out;
+        }
+
+        #yes-button {
+            background-color: #ffcccb;
+        }
+
+        #no-button {
+            background-color: #ffcccb;
+        }
+
+        #no-button:hover {
+            transform: translate(-50%, -50%) translate(-${Math.random() * 30}vw, -${Math.random() * 30}vh);
+        }
+    </style>
+</head>
+<body>
+    <div id="floating-hearts">
+        <!-- Add 100 hearts with random positions, sizes, and speeds -->
+        <script>
+            const floatingHearts = document.getElementById('floating-hearts');
+
+            for (let i = 0; i < 100; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                if (Math.random() > 0.5) {
+                    heart.classList.add('big-heart'); // Add class for bigger hearts
+                }
+                heart.style.left = Math.random() * window.innerWidth + 'px';
+                heart.style.animationDuration = (Math.random() * 8 + 4) + 's'; // Random speed
+                heart.innerHTML = '❤'; // Use heart symbol
+                floatingHearts.appendChild(heart);
+            }
+        </script>
+    </div>
+
+    <div id="love-paragraph">
+        <p>
+            Love is a beautiful journey that two people embark upon together. It's a magical connection that
+            brings joy, laughter, and warmth to our lives. As you scroll down, get ready for a special question.
+        </p>
+    </div>
+
+    <div id="options">
+        <button id="yes-button" onclick="redirectToNextPage()">Yes</button>
+        <button id="no-button" onmouseover="moveNoButtonAway()">No</button>
+    </div>
+
+    <script>
+        let isNoButtonMoved = false;
+
+        // Display options after scrolling
+        window.addEventListener('scroll', () => {
+            const loveParagraph = document.getElementById('love-paragraph');
+            const options = document.getElementById('options');
+
+            if (window.scrollY > loveParagraph.offsetTop + loveParagraph.offsetHeight) {
+                options.style.display = 'block';
+            }
+        });
+
+        // Move no button away on hover
+        function moveNoButtonAway() {
+            const noButton = document.getElementById('no-button');
+            if (!isNoButtonMoved) {
+                noButton.style.transform = `translate(-50%, -50%) translate(-${Math.random() * 30}vw, -${Math.random() * 30}vh)`;
+                noButton.style.pointerEvents = 'none';
+                noButton.style.transition = 'transform 2s ease-out';
+                isNoButtonMoved = true;
+            }
+        }
+
+        // Redirect to the next page on Yes
+        function redirectToNextPage() {
+            window.location.href = 'thankyou.html';
+        }
+    </script>
+</body>
+</html>
